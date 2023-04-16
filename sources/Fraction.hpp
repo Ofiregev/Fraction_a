@@ -13,6 +13,7 @@ namespace ariel
         int n;
         int d;
         public:
+            Fraction();
             Fraction(int a, int b);
             Fraction(float a);
             Fraction get_fraction();
@@ -29,12 +30,15 @@ namespace ariel
             friend Fraction operator*(float d, const Fraction& f);
             Fraction operator/(Fraction& f) ;
             bool operator==(const Fraction& f) ;
-            bool operator==(float f) const ;
+            bool operator==(float f) ;
             bool operator>(Fraction& f) ;
             bool operator>(float d);
             bool operator>=(Fraction& f) ;
+            bool operator>=(float d);
             bool operator<(Fraction& f) ;
+            bool operator<(float d);
             bool operator<=(Fraction& f) ;
+            bool operator<=(float d);
             Fraction& operator++();   // prefix increment operator
             Fraction& operator--();   // prefix decrement operator
             Fraction operator++(int); // postfix increment operator
@@ -45,6 +49,7 @@ namespace ariel
             int gcd(int a, int b);
             float to_float() const;
             float short_the_float(float f);
+            string to_string();
         };
 
     };

@@ -6,6 +6,7 @@
 #include "Fraction.hpp"
 namespace ariel
 {
+    Fraction::Fraction(){}
     Fraction::Fraction(int a, int b)
     {
         if (b == 0)
@@ -15,7 +16,7 @@ namespace ariel
         else if (a == 0)
         {
             this->n = 0;
-            this->d = 0;
+            this->d = 1;
         }
         else
         {
@@ -62,6 +63,7 @@ Fraction Fraction::operator+(Fraction &f)
 float Fraction::operator+(float d)
 {
     float f = this->to_float();
+    this->short_the_float(f);
     return d+f;
 }
 Fraction Fraction::operator-(Fraction &f)
@@ -108,55 +110,103 @@ Fraction operator*(float d, const Fraction &f)
 }
 Fraction Fraction::operator/(Fraction &f)
 {
-    return f;
+    if(f.n == 0)
+    {
+        throw std::runtime_error("Invalid fraction: denominator cannot be zero.");
+    }
+    int new_n = this->n * f.d;
+    int new_d = this->d* f.n;
+    Fraction res(new_n, new_d);
+    res.reduce();
+    return res;
 }
 bool Fraction::operator==(const Fraction &f)
 {
-    return (this->n == f.n) && (this->d == f.d);
+  
+    this->reduce();
+    Fraction temp = f;
+    temp.reduce();
+    return (this->n == temp.n) && (this->d == temp.d);
 }
-bool Fraction::operator==(float f) const {
+bool Fraction::operator==(float f){
     float a = this->to_float();
     return a == f;
 }
 bool Fraction::operator>(Fraction &f)
 {
-    return true;
+    int n_a = this->n *f.d;
+    int n_b = f.n * this->d;
+
+        // Compare the numerators of the two fractions
+    return n_a > n_b;
 }
 bool Fraction::operator>(float d)
 {
-    return true;
+    float temp = this->to_float();
+    return temp > d;
 }
 bool Fraction::operator>=(Fraction &f)
 {
-    return true;
+    int n_a = this->n *f.d;
+    int n_b = f.n * this->d;
+
+        // Compare the numerators of the two fractions
+    return n_a >= n_b;
+}
+bool Fraction::operator>=(float d)
+{
+    float temp = this->to_float();
+    return temp >= d;
 }
 bool Fraction::operator<(Fraction &f)
 {
-    return true;
+    int n_a = this->n *f.d;
+    int n_b = f.n * this->d;
+
+        // Compare the numerators of the two fractions
+    return n_a < n_b;
+}
+bool Fraction::operator<(float d)
+{
+    float temp = this->to_float();
+    return temp < d;
 }
 bool Fraction::operator<=(Fraction &f)
 {
-    return true;
+    int n_a = this->n *f.d;
+    int n_b = f.n * this->d;
+
+        // Compare the numerators of the two fractions
+    return n_a <= n_b;
+}
+bool Fraction::operator<=(float d)
+{
+    float temp = this->to_float();
+    return temp <= d;
 }
 Fraction &Fraction::operator++()
 {
-    n += d;
+    this->n = this->n + this->d;
+    this->reduce();
     return *this;
 }
 Fraction &Fraction::operator--()
 {
-    n += d;
+    this->n = this->n - this->d;
+    this->reduce();
     return *this;
 }
 Fraction Fraction::operator++(int)
 {
-    Fraction f = Fraction(1, 1);
-    return f;
+    Fraction old_fraction = *this;
+    ++(*this);
+    return old_fraction;
 }
 Fraction Fraction::operator--(int)
 {
-    Fraction f = Fraction(1, 1);
-    return f;
+    Fraction old_fraction = *this;
+    --(*this);
+    return old_fraction;
 }
 std::ostream &operator<<(std::ostream &stream, const Fraction &f)
 {
@@ -165,8 +215,9 @@ std::ostream &operator<<(std::ostream &stream, const Fraction &f)
 }
 std::istream &operator>>(std::istream &stream, Fraction &f)
 {
-    int t;
-    stream >> t;
+    char s;
+    stream >> f.n >> s >> f.d;
+    f.reduce();
     return stream;
 }
 void Fraction::reduce()
@@ -192,5 +243,9 @@ float Fraction::to_float() const {
 float Fraction::short_the_float(float f)
 {
     return std::round(f * 1000.0) / 1000.0;
+}
+string Fraction::to_string()
+{
+    return std::to_string(this->n) +'/'+std::to_string(this->d);
 }
 }
