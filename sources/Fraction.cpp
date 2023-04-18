@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <numeric>
 #include <iomanip> 
-#include <cmath>
+#include <math.h>
 #include "Fraction.hpp"
 namespace ariel
 {
@@ -22,7 +22,11 @@ namespace ariel
         {
             this->n = a;
             this->d = b;
+            this->reduce();
         }
+    }
+    Fraction::Fraction(float f){
+        
     }
     void Fraction::set_n(int a)
     {
@@ -46,7 +50,7 @@ int Fraction::get_d()
 {
     return this->d;
 }
-Fraction::Fraction(float d) {}
+
 
 Fraction Fraction::operator+(Fraction &f)
 {
@@ -64,7 +68,8 @@ float Fraction::operator+(float d)
 {
     float f = this->to_float();
     this->short_the_float(f);
-    return d+f;
+    float res = this->short_the_float(d + f);
+    return res;
 }
 Fraction Fraction::operator-(Fraction &f)
 {
@@ -82,6 +87,13 @@ float Fraction::operator-(float d)
     f = this->short_the_float(f);
     d = this->short_the_float(d);
     float res = short_the_float(f-d);
+    return res;
+}
+Fraction Fraction::operator-(int p)
+{
+    int a = this->d;
+    Fraction w(p*a,p*a);
+    Fraction res = (*this) - w;
     return res;
 }
 
@@ -210,9 +222,16 @@ Fraction Fraction::operator--(int)
 }
 std::ostream &operator<<(std::ostream &stream, const Fraction &f)
 {
-    stream << f.n << "/" << f.d;
+    
+    stream << f.to_string();
     return stream;
 }
+// std::ostream& operator<<(std::ostream& stream, const float& f) {
+//     stream << std::fixed << std::setprecision(3) << f;
+//     return stream;
+// }
+
+
 std::istream &operator>>(std::istream &stream, Fraction &f)
 {
     char s;
@@ -242,10 +261,12 @@ float Fraction::to_float() const {
 }
 float Fraction::short_the_float(float f)
 {
-    return std::round(f * 1000.0) / 1000.0;
+    float rounded_down = floorf(f * 1000) / 1000;  
+    return rounded_down;
 }
-string Fraction::to_string()
+string Fraction::to_string() const
 {
     return std::to_string(this->n) +'/'+std::to_string(this->d);
 }
+
 }

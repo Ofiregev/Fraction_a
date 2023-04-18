@@ -3,15 +3,12 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
-namespace ariel
-{
-    
-    class Fraction
-    {
+     
+namespace ariel {
+    class Fraction {
         private:
-        int n;
-        int d;
+            int n;
+            int d;
         public:
             Fraction();
             Fraction(int a, int b);
@@ -23,6 +20,7 @@ namespace ariel
             void set_d(int b);
             Fraction operator+(Fraction& f) ;
             float operator+(float d);
+            Fraction operator-(int p);
             Fraction operator-(Fraction& f) ;
             float operator-(float d);
             Fraction operator*(Fraction& f) ;
@@ -43,16 +41,17 @@ namespace ariel
             Fraction& operator--();   // prefix decrement operator
             Fraction operator++(int); // postfix increment operator
             Fraction operator--(int); // postfix decrement operator 
-            friend std::ostream& operator<<(std::ostream& os, const Fraction& f); // output stream operator
+            friend std::ostream &operator<<(std::ostream &stream, const Fraction &f);
             friend std::istream& operator>>(std::istream& is, Fraction& f); // input stream operator
             void reduce();
             int gcd(int a, int b);
             float to_float() const;
             float short_the_float(float f);
-            string to_string();
-        };
-
+            std::string to_string() const;
     };
+}
+
+    
 
 
 #endif
