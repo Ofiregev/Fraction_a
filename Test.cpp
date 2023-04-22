@@ -121,6 +121,7 @@ TEST_CASE("Test 8 - operator < , <=")
 TEST_CASE("Test 9 - operator ++a, --a")
 {
     Fraction a(1, 2), b(3, 2), f(1, -2);
+
     Fraction &d = ++a;
     CHECK(a == d);
     CHECK(d == b);

@@ -97,8 +97,6 @@ namespace ariel
         return f - t;
     }
 
-    
-
     Fraction operator*(const Fraction &f1, const Fraction &f2)
     {
         int n = f1.n * f2.n;
@@ -232,6 +230,7 @@ namespace ariel
     {
         this->n = this->n + this->d;
         this->reduce();
+
         return *this;
     }
     Fraction &Fraction::operator--()
@@ -252,6 +251,7 @@ namespace ariel
         --(*this);
         return old_fraction;
     }
+
     std::ostream &operator<<(std::ostream &stream, const Fraction &f)
     {
 
