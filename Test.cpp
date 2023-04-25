@@ -122,11 +122,11 @@ TEST_CASE("Test 9 - operator ++a, --a")
 {
     Fraction a(1, 2), b(3, 2), f(1, -2);
 
-    Fraction &d = ++a;
+    Fraction &d = ++a; //pre-increments the value of 'a' by 1, and assigns the result to a reference variable d
     CHECK(a == d);
     CHECK(d == b);
     Fraction z(1, 2);
-    Fraction &s = --z;
+    Fraction &s = --z; //re-decrements the value of 'z' by 1, and assigns the result to a reference variable s
     CHECK(z == s);
     Fraction v(s.get_n(), s.get_d());
     CHECK(v == f);
@@ -134,8 +134,8 @@ TEST_CASE("Test 9 - operator ++a, --a")
 TEST_CASE("Test 10  operator a++, a--")
 {
     Fraction a(1, 2), b(3, 2), f(1, 2);
-    Fraction d = a++;
-    CHECK(d == f);
+    Fraction d = a++; //post-increments the value of a by 1, and assigns the original value to a new Fraction object d
+    CHECK(d == f); // check if d equal to a before incrementing
     CHECK(a == b);
     Fraction v = b--;
     Fraction z(3, 2);
